@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fin-z: interactive prototype by Harshita Gahlot</title>
+<meta name="author" content="Harshita Gahlot">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="description" content="Fin-z, a product idea for people who pay digitally but still keep money records by hand. Concept and design by Harshita Gahlot, 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+:root{--navy:#0B2545;--blue:#1D4E89;--sky:#D8EAFB;--mist:#F2F8FE;--teal:#13A89E;--tealt:#0A7C6E;--amber:#E08A1E;--slate:#4A5D73;--line:#E3EAF2;--soft:#8FB8DE}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:'Figtree','Segoe UI',system-ui,sans-serif;color:var(--navy);background:#E8F1FB;font-variant-numeric:tabular-nums}
+button,input{font-family:inherit}
+button{cursor:pointer}
+.page{min-height:100%;display:flex;align-items:center;justify-content:center;gap:64px;padding:40px 24px 64px}
+.intro{max-width:380px;display:flex;flex-direction:column;gap:18px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo b{font-family:'Sora',sans-serif;font-size:30px;color:var(--blue)}
+.intro h1{font-family:'Sora',sans-serif;font-size:34px;line-height:1.15;margin:0}
+.intro p{margin:0;font-size:16px;line-height:1.6;color:#2E4661}
+.by{font-size:14px;color:var(--slate)}
+.by strong{color:var(--navy)}
+.hint{background:#fff;border-radius:16px;padding:14px 16px;font-size:14px;line-height:1.6;color:#2E4661}
+.hint b{color:var(--navy)}
+.legal{font-size:12px;color:var(--slate);line-height:1.5}
+.phone{width:390px;height:844px;flex-shrink:0;border-radius:46px;background:var(--mist);box-shadow:0 0 0 10px #0B2545,0 30px 70px rgba(11,37,69,.28);overflow:hidden;position:relative;display:flex;flex-direction:column}
+.scroll{flex:1;min-height:0;overflow-y:auto}
+.foot{position:fixed;left:0;right:0;bottom:0;text-align:center;font-size:12px;color:var(--slate);padding:10px;background:rgba(232,241,251,.92)}
+@media (max-width:860px){
+  .page{flex-direction:column;gap:20px;padding:20px 0 60px}
+  .intro{padding:0 20px;max-width:560px}
+  .intro h1{font-size:26px}
+  .hint{display:none}
+}
+@media (max-width:430px){
+  .page{padding:0 0 44px}
+  .intro{display:none}
+  .phone{width:100%;height:calc(100dvh - 44px);border-radius:0;box-shadow:none}
+}
+/* app */
+.hdr{background:var(--sky);padding:22px 20px 26px;border-radius:0 0 28px 28px;display:flex;flex-direction:column;gap:20px}
+.row{display:flex;align-items:center}
+.between{justify-content:space-between}
+.gap8{gap:8px}.gap12{gap:12px}
+.aa{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;background:#CDEFEA;color:#0A5E55;padding:6px 10px;border-radius:12px}
+.muted{color:var(--slate)}
+.small{font-size:12px}
+.bal{font-family:'Sora',sans-serif;font-weight:600;font-size:40px;letter-spacing:-.5px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.stat{background:#fff;border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.stat b{font-family:'Sora',sans-serif;font-size:16px;font-weight:600}
+.pad{padding:24px 16px;display:flex;flex-direction:column;gap:16px}
+.col{display:flex;flex-direction:column}
+.title{font-family:'Sora',sans-serif;font-size:26px;font-weight:700;margin:0}
+.h2{font-family:'Sora',sans-serif;font-size:16px;font-weight:600;margin:0}
+.card{background:#fff;border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.banner{margin:0 16px;background:#FFF4E5;border:1px solid #F3C98B;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;color:#6B3A00}
+.txn{width:100%;border:none;background:#fff;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;text-align:left;color:var(--navy);min-height:64px}
+.badge{width:40px;height:40px;flex-shrink:0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:700;font-size:15px}
+.tname{font-family:'Sora',sans-serif;font-weight:600;font-size:15px}
+.ellip{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.amt{font-family:'Sora',sans-serif;font-weight:600;font-size:15px}
+.chip{font-size:11px;font-weight:600;padding:2px 8px;border-radius:8px}
+.btn{min-height:44px;padding:0 18px;border:none;border-radius:14px;background:var(--navy);color:#fff;font-weight:700;font-size:14px}
+.btn.big{min-height:50px;border-radius:16px;font-size:15px;width:100%}
+.btn.teal{background:var(--tealt)}
+.btn.sm{min-height:36px;padding:0 14px;border-radius:18px;font-size:13px}
+.btn.ghost{background:#fff;color:var(--navy);border:1px solid #C5D3E2}
+.pill{min-height:36px;padding:0 12px;border-radius:18px;font-size:13px;font-weight:600;background:#fff;color:var(--navy);border:1px solid #C5D3E2}
+.pill.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.seg{display:flex;background:#EEF3F8;border-radius:18px;padding:3px}
+.seg button{min-height:32px;padding:0 12px;border:none;border-radius:15px;font-size:12px;font-weight:600;background:transparent;color:var(--slate)}
+.seg button.on{background:#fff;color:var(--navy);box-shadow:0 1px 2px rgba(11,37,69,.15)}
+.bar{height:8px;border-radius:4px;background:#EEF3F8}
+.bar i{display:block;height:8px;border-radius:4px}
+.field{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600;color:var(--slate)}
+.field input{min-height:44px;border:1px solid #C5D3E2;border-radius:12px;padding:0 12px;font-size:15px;color:var(--navy);background:#F7FAFD}
+.mem{min-height:40px;padding:0 14px 0 6px;border-radius:20px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;border:1px dashed #A9BACB;background:#fff;color:var(--slate)}
+.mem.on{background:var(--blue);color:#fff;border:1px solid var(--blue)}
+.mem span{width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:#EEF3F8;color:var(--slate)}
+.mem.on span{background:var(--teal);color:var(--navy)}
+.share{display:flex;justify-content:space-between;align-items:center;background:#EAF6F4;border-radius:14px;padding:12px 14px;color:#0A5E55;font-weight:600}
+.share b{font-family:'Sora',sans-serif;font-size:18px}
+.owe{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.av{width:36px;height:36px;border-radius:18px;background:#D6E6F5;color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+.paid{font-size:12px;font-weight:700;padding:6px 10px;border-radius:10px;background:#D7F2EE;color:#0A5E55}
+.pend{min-height:36px;padding:0 12px;border-radius:18px;border:1px solid #F3C98B;background:#FFF4E5;color:#6B3A00;font-size:12px;font-weight:700}
+.prog{height:8px;border-radius:4px;background:#E3EAF2;overflow:hidden}
+.prog i{display:block;height:8px;background:var(--teal)}
+.leg{display:flex;align-items:center;gap:8px;font-size:13px}
+.leg i{width:10px;height:10px;border-radius:3px}
+.leg span{flex:1}
+.nav{height:76px;flex-shrink:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:#fff;border-top:1px solid #D5E0EB;padding-bottom:8px}
+.nav button{border:none;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;color:#5B6E84;font-weight:500}
+.nav button.on{color:var(--blue);font-weight:700}
+.scrim{position:absolute;inset:0;background:rgba(29,78,137,.28);display:flex;flex-direction:column;justify-content:flex-end;z-index:5}
+.sheet{background:#fff;border-radius:26px 26px 0 0;padding:14px 20px 24px;display:flex;flex-direction:column;gap:16px;max-height:92%;overflow-y:auto}
+.handle{width:40px;height:4px;border-radius:2px;background:#C5D3E2;margin:0 auto}
+.x{width:44px;height:44px;border-radius:22px;border:none;background:#EEF3F8;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nick{min-height:40px;padding:0 14px;border-radius:20px;font-size:14px;font-weight:600;background:#fff;color:var(--navy);border:1px solid #C5D3E2}
+.nick.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.toggle{display:flex;align-items:center;gap:12px;border:none;background:#F7FAFD;border-radius:14px;padding:12px 14px;text-align:left;color:var(--navy);width:100%}
+.sw{width:52px;height:30px;border-radius:15px;position:relative;flex-shrink:0;background:#A9BACB;border:none;padding:0}
+.sw i{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:12px;background:#fff;transition:left .15s}
+.sw.on{background:var(--tealt)}
+.sw.on i{left:25px}
+.toast{position:absolute;left:20px;right:20px;bottom:92px;background:var(--navy);color:#fff;border-radius:14px;padding:12px 16px;font-size:14px;font-weight:600;text-align:center;z-index:9}
+.bank{height:200px;border-radius:22px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.bank svg.deco{position:absolute;right:-60px;top:-40px}
+.num{font-family:'Sora',sans-serif;font-size:20px;letter-spacing:2px;position:relative}
+.ctab{flex:1;min-height:44px;border-radius:14px;font-size:12px;font-weight:600;background:#fff;color:var(--navy);border:1px solid #C5D3E2}
+.ctab.on{border:2px solid var(--blue)}
+.tok{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line)}
+.sig{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.dash{min-height:44px;border-radius:14px;border:1px dashed #8FA6BF;background:#F7FAFD;color:var(--blue);font-size:14px;font-weight:700}
+.credit{font-size:11px;color:var(--slate);text-align:center;padding:8px 16px 16px}
+button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="page">
+  <aside class="intro">
+    <div class="logo">
+      <svg width="44" height="44" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#13A89E"/><path d="M10 10h12L10 22h12" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <b>Fin-z</b>
+    </div>
+    <h1>Every rupee, named.</h1>
+    <p>A product idea for India's <strong>Hisaab segment</strong>: people who pay digitally every day but still keep their money records on pen and paper. Fin-z brings in every account through RBI's Account Aggregator framework and turns payments into records people understand, in their own words.</p>
+    <div class="hint"><b>Try it:</b> tap any payment to rename it, split a dinner and send payment links, switch months in Insights, filter market signals, and manage which apps your cards are linked to.</div>
+    <div class="by">Concept, product design and prototype by <strong>Harshita Gahlot</strong></div>
+    <div class="legal">Interactive prototype with sample data. Not a live financial product.<br>© 2026 Harshita Gahlot. All rights reserved.</div>
+  </aside>
+  <div class="phone" id="app" aria-label="Fin-z app prototype"></div>
+</div>
+<div class="foot">© 2026 Harshita Gahlot. Fin-z concept and design. All rights reserved.</div>
+
+<script>
+(function(){
+const CAT={'Rent':'#1D4E89','Groceries':'#13A89E','Food & dining':'#4F8FCB','Utilities':'#8FB8DE','Travel':'#0A7C6E','Others':'#E08A1E'};
+const S={
+  tab:'home',editId:null,newNick:'',newCat:'Others',applyAll:true,toast:'',
+  nicks:[{n:'Chai',c:'Food & dining'},{n:'Sutta',c:'Others'},{n:'Kirana',c:'Groceries'},{n:'Rent',c:'Rent'},{n:'Bijli bill',c:'Utilities'},{n:'Cab',c:'Travel'},{n:'Party',c:'Others'},{n:'Late-night food',c:'Food & dining'}],
+  txns:[
+    {id:1,m:'shriram',raw:'UPI/SHRI RAM TEA STALL/48291',label:'Shri Ram Tea Stall',nick:'Chai',amt:-40,date:'Today, 9:12 am'},
+    {id:2,m:'blinkit',raw:'UPI/BLINKIT COMMERCE PVT/99214',label:'Blinkit Commerce',nick:null,amt:-642,date:'Yesterday, 8:05 pm'},
+    {id:3,m:'aarav',raw:'UPI/AARAV MEHTA/SPLIT',label:'Aarav Mehta',nick:null,amt:1200,date:'Yesterday, 11:40 am'},
+    {id:4,m:'paan',raw:'UPI/PAAN PALACE/77310',label:'Paan Palace',nick:'Sutta',amt:-120,date:'25 Sep, 10:18 pm'},
+    {id:5,m:'rent',raw:'NEFT/RAJESH KUMAR/RENT SEP',label:'Rajesh Kumar',nick:'Rent',amt:-14000,date:'25 Sep, 9:00 am'},
+    {id:6,m:'uber',raw:'UPI/UBER INDIA SYSTEMS/55102',label:'Uber India',nick:'Cab',amt:-286,date:'24 Sep, 7:45 pm'},
+    {id:7,m:'bescom',raw:'BBPS/BESCOM ELECTRICITY',label:'BESCOM',nick:'Bijli bill',amt:-1180,date:'23 Sep, 6:30 pm'},
+    {id:8,m:'shriram',raw:'UPI/SHRI RAM TEA STALL/47102',label:'Shri Ram Tea Stall',nick:'Chai',amt:-30,date:'23 Sep, 4:55 pm'},
+    {id:9,m:'salary',raw:'NEFT/SALARY CREDIT/SEP',label:'Salary credit',nick:null,amt:52000,date:'1 Sep, 10:02 am'}],
+  event:'Friday team dinner',total:4800,sent:false,owedPaid:false,
+  members:[{name:'You',in:true,paid:true,code:''},{name:'Aarav',in:true,paid:false,code:'k8q2'},{name:'Meera',in:true,paid:false,code:'m3t7'},{name:'Kabir',in:true,paid:false,code:'z9p4'},{name:'Riya',in:false,paid:false,code:'r5w1'}],
+  month:'Sep',metric:'savings',catView:'category',sig:'all',card:0,picker:false,addCard:false,
+  cards:[
+    {bank:'HDFC Bank',kind:'Credit card',net:'VISA',last:'4821',exp:'08/29',bg:'#BFDDF7',credit:true,due:8420,dueDate:'5 Oct',paid:false,tokens:[{app:'Swiggy',on:true},{app:'Amazon',on:true},{app:'Zepto',on:false}]},
+    {bank:'SBI',kind:'Debit card',net:'RuPay',last:'1107',exp:'03/28',bg:'#BDEBE4',credit:false,due:0,dueDate:'',paid:false,tokens:[{app:'IRCTC',on:true}]},
+    {bank:'ICICI Bank',kind:'Credit card',net:'Mastercard',last:'6630',exp:'11/27',bg:'#D6DEF7',credit:true,due:2150,dueDate:'12 Oct',paid:false,tokens:[]}]
+};
+const MONTHS=['Apr','May','Jun','Jul','Aug','Sep'],INCOME=52000,SPEND=[36200,34900,38400,35100,33300,31840],INV=[6000,7000,5000,8000,8000,7760];
+const SAVE=SPEND.map((s,k)=>INCOME-s-INV[k]);
+const rate=a=>a.map(v=>Math.round(v/INCOME*1000)/10);
+const SERIES={savings:rate(SAVE),investments:rate(INV),spends:rate(SPEND)};
+const CATDATA={Jul:[['Rent',14000],['Food & dining',6300],['Groceries',6100],['Others',3600],['Utilities',2600],['Travel',2500]],Aug:[['Rent',14000],['Groceries',5900],['Food & dining',5650],['Others',2900],['Utilities',2480],['Travel',2370]],Sep:[['Rent',14000],['Groceries',5420],['Food & dining',4860],['Others',3100],['Utilities',2310],['Travel',2150]]};
+const NICKDATA={Jul:[['Kirana',6100],['Late-night food',3050],['Cab',2500],['Sutta',2010],['Party',1600],['Chai',1320]],Aug:[['Kirana',5900],['Late-night food',2640],['Cab',2370],['Party',1830],['Sutta',1620],['Chai',1180]],Sep:[['Kirana',5420],['Late-night food',2180],['Cab',2150],['Sutta',1860],['Party',1240],['Chai',1240]]};
+const HOLD=[['Nifty 50 index fund','Mutual fund',92400,'+14.2%'],['Flexi cap fund','Mutual fund',48200,'+18.9%'],['ITC','80 shares',33440,'+9.6%'],['Gold ETF','Exchange traded fund',21600,'+21.3%'],['Infosys','12 shares',18960,'+6.1%']];
+const SIG=[['Infosys','INFY','Bullish','Closed above its 50-day average on higher volume','+1.8%',true],['ITC','ITC','Bullish','RSI recovered from 38 to 52 over the week','+0.9%',true],['Maruti Suzuki','MARUTI','Bearish','Slipped below support near its 200-day average','\u22122.4%',false],['Asian Paints','ASIANPAINT','Bearish','Lower highs for three sessions in a row','\u22121.1%',false],['HDFC Bank','HDFCBANK','Neutral','Trading flat inside last week\u2019s range','+0.2%',false]];
+const APPS=['Swiggy','Amazon','Zepto','IRCTC','BookMyShow','MakeMyTrip','Myntra'];
+
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const inr=n=>'\u20b9'+Math.round(Math.abs(n)).toLocaleString('en-IN');
+const catOf=n=>{const f=S.nicks.find(x=>x.n===n);return f?f.c:'Others'};
+let tmr;
+function flash(m){S.toast=m;render();clearTimeout(tmr);tmr=setTimeout(()=>{S.toast='';render()},2400)}
+
+function home(){
+  const un=S.txns.filter(t=>!t.nick&&t.amt<0);
+  const rows=S.txns.map(t=>{
+    let cat,chip,badge;
+    if(t.nick){cat=catOf(t.nick);chip='background:#EEF3F8;color:#24405F';badge='background:'+(CAT[cat]||'#4A5D73')+';color:#fff'}
+    else if(t.amt>0){cat=t.m==='salary'?'Income':'Received';chip=badge='background:#D7F2EE;color:#0A5E55'}
+    else{cat='Needs a name';chip=badge='background:#FBE7CF;color:#6B3A00'}
+    const title=t.nick||t.label;
+    return `<button class="txn" data-a="open" data-v="${t.id}">
+      <span class="badge" style="${badge}">${esc(title.charAt(0).toUpperCase())}</span>
+      <span class="col" style="flex:1;min-width:0;gap:3px"><span class="tname">${esc(title)}</span><span class="small muted ellip">${esc(t.raw)}</span></span>
+      <span class="col" style="align-items:flex-end;gap:4px;flex-shrink:0"><span class="amt" style="color:${t.amt>0?'#0A7C6E':'#0B2545'}">${t.amt>0?'+':'\u2212'}${inr(t.amt)}</span><span class="chip" style="${chip}">${cat}</span></span>
+    </button>`}).join('');
+  return `<div class="col" style="gap:16px;padding-bottom:8px">
+  <div class="hdr">
+    <div class="row between">
+      <div class="row gap8"><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#13A89E"/><path d="M10 10h12L10 22h12" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:Sora,sans-serif;font-weight:700;font-size:20px;color:#1D4E89">Fin-z</span></div>
+      <span class="aa"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.2l2.2 2.2 4.8-4.8" stroke="#0A5E55" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>Account Aggregator linked</span>
+    </div>
+    <div class="col" style="gap:4px"><span style="font-size:13px;color:#3E5673">HDFC Bank savings \u2022\u20223390</span><span class="bal">\u20b948,250</span><span class="small" style="color:#3E5673">Synced 2 min ago through RBI's Account Aggregator network</span></div>
+    <div class="stats"><div class="stat"><span class="small" style="color:#3E5673">Spent in Sep</span><b>\u20b931,840</b></div><div class="stat"><span class="small" style="color:#3E5673">Saved</span><b style="color:#0A7C6E">\u20b912,400</b></div><div class="stat"><span class="small" style="color:#3E5673">Invested</span><b>\u20b97,760</b></div></div>
+  </div>
+  ${un.length?`<div class="banner"><div class="col" style="flex:1;gap:2px"><b style="font-size:14px">${un.length===1?'1 payment needs a name':un.length+' payments need a name'}</b><span class="small">Give it a name you'll recognise at month end.</span></div><button class="btn sm" data-a="firstUn">Name it</button></div>`:''}
+  <div class="row between" style="padding:0 20px;align-items:baseline"><h2 class="h2" style="font-size:18px">September</h2><span class="small muted">Tap a payment to rename it</span></div>
+  <div class="col" style="gap:8px;padding:0 16px">${rows}</div>
+  <div class="credit">Fin-z prototype by Harshita Gahlot \u00b7 sample data</div>
+  </div>`;
+}
+
+function split(){
+  const inc=S.members.filter(m=>m.in),share=inc.length?S.total/inc.length:0;
+  const others=S.members.map((m,i)=>Object.assign({i},m)).filter(m=>m.in&&m.name!=='You');
+  const paidN=others.filter(m=>m.paid).length,owed=share*others.length,got=share*paidN,pct=owed?Math.round(got/owed*100):0;
+  const mem=S.members.map((m,i)=>`<button class="mem${m.in?' on':''}" aria-pressed="${m.in}" data-a="mem" data-v="${i}"><span>${m.name[0]}</span>${m.name}</button>`).join('');
+  const owes=others.map(m=>`<div class="owe"><span class="av">${m.name[0]}</span><span class="col" style="flex:1;gap:2px"><b style="font-size:14px;font-weight:600">${m.name} owes ${inr(share)}</b><span class="small muted">finz.app/pay/${m.code}</span></span>${S.sent?(m.paid?'<span class="paid">Paid</span>':`<button class="pend" data-a="markPaid" data-v="${m.i}">Pending, tap when paid</button>`):''}</div>`).join('');
+  return `<div class="pad">
+  <div class="col" style="gap:4px;padding:0 4px"><h1 class="title">Split</h1><span class="muted" style="font-size:14px">Paid for the group? Send everyone a link for their share.</span></div>
+  <div class="card" style="gap:14px">
+    <label class="field">What was it for<input id="event" type="text" value="${esc(S.event)}"></label>
+    <label class="field">Total you paid (\u20b9)<input id="total" type="number" min="0" inputmode="numeric" value="${S.total}" style="font-family:Sora,sans-serif;font-size:18px;font-weight:600"></label>
+    <div class="col" style="gap:8px"><span class="small muted" style="font-weight:600">Who was there</span><div class="row" style="flex-wrap:wrap;gap:8px">${mem}</div></div>
+    <div class="share" id="sharebox"><span style="font-size:13px">${inc.length===1?'1 person':inc.length+' people'}, split equally</span><b>${inr(share)} each</b></div>
+    <div class="col">${owes}</div>
+    ${S.sent?`<div class="col" style="gap:6px"><div class="row between" style="font-size:13px;font-weight:600"><span>Collected</span><span>${inr(got)} of ${inr(owed)}</span></div><div class="prog"><i style="width:${pct}%"></i></div></div>`:`<button class="btn big" data-a="send">Send payment links</button>`}
+  </div>
+  <h2 class="h2" style="font-size:18px;margin:4px 4px 0">Earlier splits</h2>
+  <div class="card" style="padding:6px 18px;gap:0">
+    <div class="row gap12" style="padding:12px 0"><span class="col" style="flex:1;gap:2px"><b style="font-size:14px;font-weight:600">Goa trip, 4 people</b><span class="small muted">3 of 4 settled. Kabir owes you \u20b91,560</span></span><button class="btn sm ghost" data-a="remind">Remind</button></div>
+    <div class="row gap12" style="padding:12px 0;border-top:1px solid var(--line)"><span class="col" style="flex:1;gap:2px"><b style="font-size:14px;font-weight:600">Flat groceries</b><span class="small muted">You owe Meera \u20b9460</span></span>${S.owedPaid?'<span class="paid">Paid</span>':'<button class="btn sm teal" data-a="payMeera">Pay \u20b9460</button>'}</div>
+  </div></div>`;
+}
+
+function insights(){
+  const mi=MONTHS.indexOf(S.month),C=2*Math.PI*54;let cum=0;
+  const seg=(v,col)=>{const len=v/INCOME*C;const s=`<circle cx="68" cy="68" r="54" fill="none" stroke="${col}" stroke-width="18" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" stroke-dashoffset="${(-cum).toFixed(2)}"/>`;cum+=len;return s};
+  const donut=seg(SPEND[mi],'#1D4E89')+seg(INV[mi],'#8FB8DE')+seg(SAVE[mi],'#13A89E');
+  const src=S.catView==='category'?CATDATA[S.month]:NICKDATA[S.month],mx=Math.max(...src.map(x=>x[1]));
+  const bars=src.map(([n,a])=>{const col=S.catView==='category'?CAT[n]:CAT[catOf(n)];return `<div class="col" style="gap:6px"><div class="row between" style="font-size:13px"><b style="font-weight:600">${n}</b><span class="muted">${inr(a)}</span></div><div class="bar"><i style="width:${(a/mx*100).toFixed(1)}%;background:${col}"></i></div></div>`}).join('');
+  const vals=SERIES[S.metric],W=318,H=140,P=18,lo=Math.min(...vals)-2,hi=Math.max(...vals)+2;
+  const pts=vals.map((v,k)=>({x:P+k*(W-2*P)/5,y:P+(hi-v)/(hi-lo)*(H-2*P)}));
+  const COL={savings:['#13A89E','rgba(19,168,158,.12)'],investments:['#4F8FCB','rgba(79,143,203,.14)'],spends:['#1D4E89','rgba(29,78,137,.10)']}[S.metric];
+  const line=pts.map(p=>p.x.toFixed(1)+','+p.y.toFixed(1)).join(' ');
+  const area='M'+pts.map(p=>p.x.toFixed(1)+','+p.y.toFixed(1)).join(' L')+` L${pts[5].x},${H} L${pts[0].x},${H} Z`;
+  const dots=pts.map((p,k)=>k===mi?`<circle cx="${p.x}" cy="${p.y}" r="6" fill="#fff" stroke="${COL[0]}" stroke-width="3"/>`:`<circle cx="${p.x}" cy="${p.y}" r="4" fill="${COL[0]}"/>`).join('');
+  const labels=pts.map((p,k)=>`<text x="${p.x}" y="${H+18}" text-anchor="middle" font-size="11" fill="${k===mi?'#0B2545':'#4A5D73'}" font-weight="${k===mi?700:500}">${MONTHS[k]}</text>`).join('');
+  const sp=pts[mi],tx=Math.min(W-40,Math.max(22,sp.x)),ty=Math.max(12,sp.y-16);
+  const tip=`<rect x="${tx-24}" y="${ty-14}" width="48" height="20" rx="6" fill="#0B2545"/><text x="${tx}" y="${ty+1}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">${vals[mi]}%</text>`;
+  const NAMES={savings:'Savings',investments:'Investments',spends:'Spends'},diff=Math.round((vals[mi]-vals[mi-1])*10)/10;
+  const good=S.metric==='spends'?diff<0:diff>0;
+  const pill=(a,v,l,on)=>`<button class="pill${on?' on':''}" aria-pressed="${on}" data-a="${a}" data-v="${v}">${l}</button>`;
+  return `<div class="pad">
+  <div class="row between" style="padding:0 4px;align-items:flex-end"><div class="col" style="gap:4px"><h1 class="title">Insights</h1><span class="muted" style="font-size:14px">Where your \u20b952,000 went</span></div>
+  <div class="row" style="gap:6px">${['Jul','Aug','Sep'].map(m=>pill('month',m,m,S.month===m)).join('')}</div></div>
+  <div class="card" style="flex-direction:row;align-items:center;gap:18px">
+    <div style="position:relative;width:136px;height:136px;flex-shrink:0"><svg width="136" height="136" viewBox="0 0 136 136" role="img" aria-label="Income split"><g transform="rotate(-90 68 68)"><circle cx="68" cy="68" r="54" fill="none" stroke="#E3EAF2" stroke-width="18"/>${donut}</g></svg>
+    <div class="col" style="position:absolute;inset:0;align-items:center;justify-content:center"><b style="font-family:Sora,sans-serif;font-size:20px;color:#0A7C6E">${(SAVE[mi]/INCOME*100).toFixed(1)}%</b><span class="muted" style="font-size:11px">saved</span></div></div>
+    <div class="col" style="flex:1;gap:10px"><div class="leg"><i style="background:#1D4E89"></i><span>Spent</span><b>${inr(SPEND[mi])}</b></div><div class="leg"><i style="background:#8FB8DE"></i><span>Invested</span><b>${inr(INV[mi])}</b></div><div class="leg"><i style="background:#13A89E"></i><span>Saved</span><b>${inr(SAVE[mi])}</b></div></div>
+  </div>
+  <div class="card" style="gap:14px"><div class="row between"><h2 class="h2">Spending by</h2><div class="seg"><button class="${S.catView==='category'?'on':''}" data-a="view" data-v="category">Category</button><button class="${S.catView==='nickname'?'on':''}" data-a="view" data-v="nickname">Your names</button></div></div>${bars}</div>
+  <div class="card" style="gap:14px">
+    <div class="row" style="gap:6px">${[['savings','Savings %'],['investments','Invested %'],['spends','Spent %']].map(([v,l])=>pill('metric',v,l,S.metric===v)).join('')}</div>
+    <div class="col" style="gap:2px"><b style="font-family:Sora,sans-serif;font-size:16px;font-weight:600">${NAMES[S.metric]} were ${vals[mi]}% of income in ${S.month}</b><span style="font-size:13px;font-weight:600;color:${good?'#0A7C6E':'#A85B00'}">${diff>=0?'\u25b2 Up ':'\u25bc Down '}${Math.abs(diff)} points from ${MONTHS[mi-1]}</span></div>
+    <svg width="100%" viewBox="0 0 ${W} ${H+24}" role="img" aria-label="Six month trend"><line x1="0" y1="${H}" x2="${W}" y2="${H}" stroke="#E3EAF2"/><path d="${area}" fill="${COL[1]}"/><polyline points="${line}" fill="none" stroke="${COL[0]}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${dots}${labels}${tip}</svg>
+  </div></div>`;
+}
+
+function invest(){
+  const pill=(v,l)=>`<button class="pill${S.sig===v?' on':''}" aria-pressed="${S.sig===v}" data-a="sig" data-v="${v}">${l}</button>`;
+  const ST={Bullish:['background:#D7F2EE;color:#0A5E55','\u25b2 Bullish'],Bearish:['background:#FBE7CF;color:#6B3A00','\u25bc Bearish'],Neutral:['background:#E3EAF2;color:#24405F','\u25a0 Neutral']};
+  const hold=HOLD.map((h,k)=>`<div class="col" style="gap:8px;padding:12px 0;${k?'border-top:1px solid var(--line)':''}"><div class="row between" style="align-items:baseline"><span class="col" style="gap:2px"><b style="font-size:14px;font-weight:600">${h[0]}</b><span class="small muted">${h[1]}</span></span><span class="col" style="align-items:flex-end;gap:2px"><b style="font-size:14px">${inr(h[2])}</b><span class="small" style="font-weight:600;color:#0A7C6E">${h[3]}</span></span></div><div class="bar" style="height:6px"><i style="height:6px;width:${(h[2]/214600*100).toFixed(1)}%;background:#1D4E89"></i></div></div>`).join('');
+  const sigs=SIG.filter(s=>S.sig==='all'||s[2].toLowerCase()===S.sig).map(s=>`<div class="sig"><span class="col" style="flex:1;gap:3px"><b style="font-size:14px;font-weight:600">${s[0]} <span class="small muted" style="font-weight:500">${s[1]}</span></b><span class="small muted">${s[3]}</span>${s[5]?'<span style="font-size:11px;font-weight:700;color:#1D4E89">In your portfolio</span>':''}</span><span class="col" style="align-items:flex-end;gap:4px;flex-shrink:0"><span class="chip" style="${ST[s[2]][0]};padding:3px 8px">${ST[s[2]][1]}</span><span class="small" style="font-weight:600">${s[4]}</span></span></div>`).join('');
+  return `<div class="pad">
+  <div class="col" style="gap:4px;padding:0 4px"><h1 class="title">Investments</h1><span class="muted" style="font-size:14px">Demat and mutual funds, pulled in with your consent</span></div>
+  <div class="card" style="background:var(--sky);gap:14px"><div class="col" style="gap:2px"><span style="font-size:13px;color:#3E5673">Portfolio value</span><b style="font-family:Sora,sans-serif;font-size:32px">\u20b92,14,600</b></div>
+  <div class="row" style="gap:20px;font-size:13px"><span class="col" style="gap:2px"><span style="color:#3E5673">Invested</span><b>\u20b91,86,000</b></span><span class="col" style="gap:2px"><span style="color:#3E5673">Overall return</span><b style="color:#0A7C6E">+\u20b928,600 (15.4%)</b></span></div></div>
+  <div class="card" style="padding:6px 18px;gap:0">${hold}</div>
+  <div class="card"><div class="col" style="gap:2px"><h2 class="h2">Market pulse</h2><span class="small muted">Signals based on the latest market close.</span></div>
+  <div class="row" style="gap:6px">${pill('all','All')}${pill('bullish','Bullish')}${pill('bearish','Bearish')}</div>${sigs}
+  <p class="muted" style="margin:0;font-size:11px;line-height:1.5">Signals come from technical indicators and are for information only. They are not a recommendation to buy or sell.</p></div></div>`;
+}
+
+function cards(){
+  const c=S.cards[S.card];
+  const tabs=S.cards.map((k,i)=>`<button class="ctab${i===S.card?' on':''}" style="${i===S.card?'background:'+k.bg:''}" aria-pressed="${i===S.card}" data-a="card" data-v="${i}">${k.bank.split(' ')[0]} \u2022\u2022${k.last}</button>`).join('');
+  const toks=c.tokens.map((t,j)=>`<div class="tok"><span class="av" style="border-radius:10px">${t.app[0]}</span><span class="col" style="flex:1;gap:2px"><b style="font-size:14px;font-weight:600">${t.app}</b><span class="small muted">${t.on?'Active, pays with a token':'Paused'}</span></span><button class="sw${t.on?' on':''}" aria-pressed="${t.on}" aria-label="${t.on?'Pause':'Resume'} ${t.app}" data-a="tok" data-v="${j}"><i></i></button></div>`).join('');
+  const avail=APPS.filter(a=>!c.tokens.some(t=>t.app===a));
+  return `<div class="pad">
+  <div class="row between" style="padding:0 4px;align-items:flex-end"><div class="col" style="gap:4px"><h1 class="title">Cards</h1><span class="muted" style="font-size:14px">Pay, track dues and link to apps</span></div><button class="btn sm" style="min-height:40px" data-a="openAdd">Add card</button></div>
+  <div class="bank" style="background:${c.bg}">
+    <svg class="deco" width="220" height="220" viewBox="0 0 220 220" aria-hidden="true"><circle cx="110" cy="110" r="100" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="22"/><circle cx="110" cy="110" r="52" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="16"/></svg>
+    <div class="row between" style="position:relative;align-items:flex-start"><span class="col" style="gap:2px"><b style="font-family:Sora,sans-serif;font-size:16px">${c.bank}</b><span class="small" style="opacity:.8">${c.kind}</span></span><b style="font-family:Sora,sans-serif;font-size:14px">${c.net}</b></div>
+    <span class="num">\u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 ${c.last}</span>
+    <div class="row between small" style="position:relative"><span>Valid thru ${c.exp}</span><span class="row" style="gap:4px"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="2.5" y="5.5" width="7" height="5" rx="1" fill="none" stroke="#0B2545" stroke-width="1.2"/><path d="M4 5.5V4a2 2 0 014 0v1.5" fill="none" stroke="#0B2545" stroke-width="1.2"/></svg>Tokenised</span></div>
+  </div>
+  <div class="row" style="gap:8px">${tabs}</div>
+  ${c.credit?`<div class="card" style="flex-direction:row;align-items:center"><span class="col" style="flex:1;gap:2px"><span class="small muted">${c.paid?'Bill for this cycle':'Bill due '+c.dueDate}</span><b style="font-family:Sora,sans-serif;font-size:20px">${c.paid?'All clear':inr(c.due)}</b></span>${c.paid?'<span class="paid">Paid</span>':'<button class="btn teal" data-a="payBill">Pay bill</button>'}</div>`:''}
+  <div class="card" style="gap:10px"><div class="col" style="gap:2px"><h2 class="h2">Linked to apps</h2><span class="small muted">Each app gets its own token, never your card number</span></div>
+  ${c.tokens.length?toks:'<span class="muted" style="font-size:13px;padding:8px 0">Not linked anywhere yet. Link it to an app to check out faster.</span>'}
+  <button class="dash" data-a="picker">Link to another app</button>
+  ${S.picker?`<div class="row" style="flex-wrap:wrap;gap:8px">${avail.map(a=>`<button class="pill" data-a="pick" data-v="${a}">${a}</button>`).join('')}</div>`:''}
+  </div></div>`;
+}
+
+function editSheet(){
+  const t=S.txns.find(x=>x.id===S.editId);if(!t)return '';
+  const nicks=S.nicks.map(x=>`<button class="nick${t.nick===x.n?' on':''}" aria-pressed="${t.nick===x.n}" data-a="nick" data-v="${esc(x.n)}">${esc(x.n)}</button>`).join('');
+  const cats=Object.keys(CAT).map(c=>`<button class="pill${S.newCat===c?' on':''}" style="min-height:34px;font-size:12px" data-a="newcat" data-v="${c}">${c}</button>`).join('');
+  return `<div class="scrim" data-a="scrim"><div class="sheet" role="dialog" aria-label="Rename payment">
+  <div class="handle"></div>
+  <div class="row between" style="align-items:flex-start;gap:12px"><div class="col" style="gap:4px;min-width:0"><span class="small muted">Your bank shows</span><b style="font-size:13px;font-weight:600;word-break:break-all">${esc(t.raw)}</b><b style="font-family:Sora,sans-serif;font-size:24px">${t.amt>0?'+':'\u2212'}${inr(t.amt)}</b><span class="small muted">${t.date}</span></div>
+  <button class="x" aria-label="Close" data-a="close"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12" stroke="#0B2545" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+  <div class="col" style="gap:10px"><b style="font-family:Sora,sans-serif;font-size:16px;font-weight:600">Call it</b><div class="row" style="flex-wrap:wrap;gap:8px">${nicks}</div>
+  <span class="muted" style="font-size:13px">Files under <strong style="color:#0B2545">${t.nick?catOf(t.nick):'nothing yet. Pick a name above'}</strong></span></div>
+  <button class="toggle" aria-pressed="${S.applyAll}" data-a="apply"><span style="flex:1;font-size:14px;font-weight:600">Use this name for every payment to this merchant</span><span class="sw${S.applyAll?' on':''}"><i></i></span></button>
+  <div class="col" style="gap:10px;border-top:1px solid var(--line);padding-top:14px"><label for="newnick" style="font-family:Sora,sans-serif;font-size:16px;font-weight:600">Create a new name</label>
+  <div class="row" style="gap:8px"><input id="newnick" type="text" placeholder="e.g. Gym, Momos, Petrol" value="${esc(S.newNick)}" style="flex:1;min-width:0;min-height:44px;border:1px solid #C5D3E2;border-radius:12px;padding:0 12px;font-size:15px;color:#0B2545"><button class="btn" style="background:#1D4E89;border-radius:12px" data-a="addNick">Add</button></div>
+  <span class="small muted">Put it under</span><div class="row" style="flex-wrap:wrap;gap:6px">${cats}</div></div>
+  <button class="btn big" data-a="close">Done</button></div></div>`;
+}
+function addSheet(){
+  const f='min-height:44px;border:1px solid #C5D3E2;border-radius:12px;padding:0 12px;font-size:15px;color:#0B2545';
+  return `<div class="scrim" data-a="scrim"><div class="sheet" role="dialog" aria-label="Add a card">
+  <div class="row between"><b style="font-family:Sora,sans-serif;font-size:20px">Add a card</b><button class="x" aria-label="Close" data-a="closeAdd"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12" stroke="#0B2545" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+  <label class="field">Card number<input type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" style="${f}"></label>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><label class="field">Expiry<input type="text" placeholder="MM/YY" style="${f}"></label><label class="field">Name on card<input type="text" style="${f}"></label></div>
+  <p class="muted" style="margin:0;font-size:12px;line-height:1.5">Your bank will send an OTP to confirm. Fin-z keeps only a secure token and the last four digits. The full card number is never stored.</p>
+  <button class="btn big" data-a="saveCard">Verify with OTP</button></div></div>`;
+}
+const ICONS={
+ home:'<path d="M4 7h14M4 11h14M4 15h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+ split:'<circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="15" cy="9" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 18c0-3 2.2-5 5-5s5 2 5 5M13 13.5c.6-.3 1.3-.5 2-.5 2.3 0 4 1.7 4 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+ insights:'<path d="M3 17l5-5 3.5 3L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 7H19v4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+ invest:'<path d="M5 18V12M11 18V6M17 18V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+ cards:'<rect x="3" y="5.5" width="16" height="11" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 9.5h16" stroke="currentColor" stroke-width="1.8"/>'};
+const TABS=[['home','Money'],['split','Split'],['insights','Insights'],['invest','Invest'],['cards','Cards']];
+
+const app=document.getElementById('app');
+function render(){
+  const ae=document.activeElement,fid=ae&&ae.id,scroll=app.querySelector('.scroll'),st=scroll?scroll.scrollTop:0;
+  let sel=null;try{if(ae&&ae.selectionStart!=null)sel=[ae.selectionStart,ae.selectionEnd]}catch(e){}
+  const body={home,split,insights,invest,cards}[S.tab]();
+  app.innerHTML=`<div class="scroll">${body}</div>
+  ${S.toast?`<div class="toast" role="status">${esc(S.toast)}</div>`:''}
+  <nav class="nav" aria-label="Main">${TABS.map(([k,l])=>`<button class="${S.tab===k?'on':''}" data-a="tab" data-v="${k}"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">${ICONS[k]}</svg>${l}</button>`).join('')}</nav>
+  ${editSheet()}${S.addCard?addSheet():''}`;
+  const ns=app.querySelector('.scroll');if(ns)ns.scrollTop=st;
+  if(fid){const el=document.getElementById(fid);if(el){el.focus();try{if(sel)el.setSelectionRange(sel[0],sel[1])}catch(e){}}}
+}
+function setNick(n){const cur=S.txns.find(t=>t.id===S.editId);if(!cur)return;S.txns=S.txns.map(t=>(t.id===cur.id||(S.applyAll&&t.m===cur.m))?Object.assign({},t,{nick:n}):t)}
+app.addEventListener('click',e=>{
+  const b=e.target.closest('[data-a]');if(!b)return;
+  const a=b.dataset.a,v=b.dataset.v;
+  if(a==='scrim'){if(e.target!==b)return;S.editId=null;S.addCard=false;return render()}
+  const c=S.cards[S.card];
+  switch(a){
+    case 'tab':S.tab=v;S.picker=false;app.querySelector('.scroll').scrollTop=0;break;
+    case 'open':S.editId=+v;break;
+    case 'firstUn':{const u=S.txns.find(t=>!t.nick&&t.amt<0);if(u)S.editId=u.id;break}
+    case 'close':S.editId=null;break;
+    case 'nick':setNick(v);break;
+    case 'apply':S.applyAll=!S.applyAll;break;
+    case 'newcat':S.newCat=v;break;
+    case 'addNick':{const n=S.newNick.trim();if(!n)return flash('Type a name first');const ex=S.nicks.find(x=>x.n.toLowerCase()===n.toLowerCase());if(!ex)S.nicks.push({n,c:S.newCat});S.newNick='';setNick(ex?ex.n:n);if(!ex)return flash('"'+n+'" added under '+S.newCat);break}
+    case 'mem':S.members[+v].in=!S.members[+v].in;break;
+    case 'send':{const o=S.members.filter(m=>m.in&&m.name!=='You');if(!o.length)return flash('Add at least one friend to the split');S.sent=true;return flash('Payment links sent to '+o.length+(o.length===1?' person':' people'))}
+    case 'markPaid':{const m=S.members[+v],inc=S.members.filter(x=>x.in).length;m.paid=true;return flash(m.name+' paid you '+inr(S.total/inc))}
+    case 'remind':return flash('Reminder sent to Kabir');
+    case 'payMeera':S.owedPaid=true;return flash('Paid \u20b9460 to Meera by UPI');
+    case 'month':S.month=v;break;
+    case 'view':S.catView=v;break;
+    case 'metric':S.metric=v;break;
+    case 'sig':S.sig=v;break;
+    case 'card':S.card=+v;S.picker=false;break;
+    case 'tok':{const t=c.tokens[+v];t.on=!t.on;return flash(t.app+(t.on?' resumed':' paused'))}
+    case 'picker':S.picker=!S.picker;break;
+    case 'pick':c.tokens.push({app:v,on:true});S.picker=false;return flash('Card linked to '+v);
+    case 'payBill':c.paid=true;return flash('Paid '+inr(c.due)+' to '+c.bank);
+    case 'openAdd':S.addCard=true;break;
+    case 'closeAdd':S.addCard=false;break;
+    case 'saveCard':S.addCard=false;return flash('OTP sent to your registered mobile number');
+  }
+  render();
+});
+app.addEventListener('input',e=>{
+  const id=e.target.id;
+  if(id==='newnick')S.newNick=e.target.value;
+  else if(id==='event')S.event=e.target.value;
+  else if(id==='total'){S.total=Math.max(0,Number(e.target.value)||0);render()}
+});
+app.addEventListener('keydown',e=>{if(e.target.id==='newnick'&&e.key==='Enter'){e.preventDefault();app.querySelector('[data-a="addNick"]').click()}});
+render();
+})();
+</script>
+</body>
+</html>
